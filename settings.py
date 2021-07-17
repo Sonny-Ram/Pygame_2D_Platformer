@@ -15,13 +15,16 @@ CLOUD_LAYER = 0
 PLAYER_LAYER = 2
 PLATFORM_LAYER = 1
 JUMP_POWERUP_LAYER = 1
+ENEMY_LAYER = 2
+
+####################################
+## Enemies ##
+ENEMY_ONE_SPAWN_FREQ = 2000
 
 #################################
 ## ITEM SPAWNS ##
 JUMP_BOOST = -60
 JUMP_BOOST_SPAWN_PCT = 10
-
-
 
 #################################
 ## COLOUR PALETTE ##
@@ -46,15 +49,30 @@ JUMP_POWER = -25
 PLAYER_Y_MOMENTUM = 0.7  # gravity effect
 TIME_AIRBORNE = 0
 
-
-
 #################################
 ## SPRITESHEETS ##
 SPRITESHEET_PLAYER_IDLE = "red_blob_idle_two.png"
-# SPRITESHEET_PLAYER = "red_blob_spritesheet.png" # first sheet; blob has white outline issue
-SPRITESHEET_PLAYER_JUMP = "red_blob_jump_SS.png"
+SPRITESHEET_PLAYER_IDLE_FRAMES = ["2x_02.png", "2x_03.png", "2x_04.png", "2x_05.png", "2x_06.png", "2x_07.png",
+                                  "2x_08.png", "2x_09.png", "2x_10.png", "2x_11.png", "2x_12.png"]
+
 SPRITESHEET_PLAYER_RUN = "red_blob_run.png"
+SPRITESHEET_PLAYER_RUN_FRAMES = ["red_blob_run_03.png", "red_blob_run_04.png", "red_blob_run_05.png",
+                                 "red_blob_run_06.png", "red_blob_run_07.png", "red_blob_run_08.png",
+                                 "red_blob_run_09.png", "red_blob_run_10.png", "red_blob_run_11.png",
+                                 "red_blob_run_12.png", "red_blob_run_16.png", "red_blob_run_17.png",
+                                 "red_blob_run_18.png", "red_blob_run_19.png", "red_blob_run_20.png",
+                                 "red_blob_run_21.png", "red_blob_run_22.png", "red_blob_run_23.png",
+                                 ]
+
+SPRITESHEET_PLAYER_JUMP = "red_blob_jump_SS.png"
+SPRITESHEET_PLAYER_JUMP_FRAMES = ["red_blob_jump_03.png", "red_blob_jump_05.png"]
+
 SPRITESHEET_OBSTACLES = "spritesheet_jumper.png"
+
+
+ENEMY_T1 = "angry_head.png"
+ENEMY_T1_RED = "angry_head.png"
+ENEMY_T1_PINK = "angry_head_2.png"
 ## OLD PLATFORM LIST  - WIDTH, HEIGHT VARS ARGUMENTS ##
 # PLATFORM_LIST = [(0, SCREEN_HEIGHT - 50, SCREEN_WIDTH, 50),
 #                  (SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT * 3 / 4, 100, 20),
@@ -62,7 +80,3 @@ SPRITESHEET_OBSTACLES = "spritesheet_jumper.png"
 #                  (170, 100, 50, 20)]
 PLATFORM_LIST = [(0, SCREEN_HEIGHT - 50), (100, 20), (125, SCREEN_HEIGHT - 350), (350, 200),
                  (170, 100)]
-
-
-test = ["2x_02.png","2x_03.png","2x_04.png","2x_05.png","2x_06.png","2x_07.png","2x_08.png","2x_09.png",
-        "2x_10.png","2x_11.png","2x_12.png"]

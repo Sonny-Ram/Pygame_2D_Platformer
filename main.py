@@ -6,5 +6,10 @@ game = Game()
 #############
 # Game Loop #
 #############
-while True:
+game.main_menu()
+while game.running:
     game.start()
+    game.game_over()
+
+pg.quit()
+sys.exit()

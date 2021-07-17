@@ -44,69 +44,23 @@ class Player(pg.sprite.Sprite):
 
     def load_images(self):
 
-        self.idle_frames = [self.game.spritesheet.get_image(0, 0, 146, 149),
-                            self.game.spritesheet.get_image(146, 0, 146, 149),
-                            self.game.spritesheet.get_image(292, 0, 146, 149),
-                            self.game.spritesheet.get_image(438, 0, 145, 149),
-                            self.game.spritesheet.get_image(583, 0, 146, 149),
-                            self.game.spritesheet.get_image(729, 0, 146, 149),
-                            self.game.spritesheet.get_image(875, 0, 146, 149),
-                            self.game.spritesheet.get_image(1021, 0, 145, 149),
-                            self.game.spritesheet.get_image(1166, 0, 146, 149),
-                            self.game.spritesheet.get_image(1312, 0, 146, 149),
-                            self.game.spritesheet.get_image(1458, 0, 146, 149)]
+        self.idle_frames = []
+        for frame in SPRITESHEET_PLAYER_IDLE_FRAMES:
+            self.idle_frames.append(self.game.spritesheet_idle.extract_image(frame, BLACK, 2))
 
-
-        self.running_frames = [self.game.spritesheet_run.get_image(0, 0, 171, 177),
-                               self.game.spritesheet_run.get_image(228, 0, 169, 177),
-                               self.game.spritesheet_run.get_image(456, 0, 169, 177),
-                               self.game.spritesheet_run.get_image(684, 0, 172, 177),
-                               self.game.spritesheet_run.get_image(912, 0, 166, 177),
-                               self.game.spritesheet_run.get_image(1140, 0, 177, 177),
-                               self.game.spritesheet_run.get_image(0, 177, 171, 177),
-                               self.game.spritesheet_run.get_image(228, 177, 193, 177),
-                               self.game.spritesheet_run.get_image(456, 177, 217, 177),
-                               self.game.spritesheet_run.get_image(684, 177, 228, 177),
-                               self.game.spritesheet_run.get_image(912, 177, 224, 171),
-                               self.game.spritesheet_run.get_image(1140, 177, 227, 171),
-                               self.game.spritesheet_run.get_image(0, 354, 212, 171),
-                               self.game.spritesheet_run.get_image(228, 354, 197, 171),
-                               self.game.spritesheet_run.get_image(456, 354, 174, 171),
-                               self.game.spritesheet_run.get_image(684, 354, 170, 171),
-                               self.game.spritesheet_run.get_image(912, 354, 172, 171),
-                               self.game.spritesheet_run.get_image(1140, 354, 154, 171),
-                               ]
+        self.running_frames = []
+        for frame in SPRITESHEET_PLAYER_RUN_FRAMES:
+            self.running_frames.append(self.game.spritesheet_run.extract_image(frame, BLACK, 2))
 
         self.running_frames_left = []
         # flip right running frames for left running animation
         for frame in self.running_frames:
-            frame.set_colorkey(BLACK)
+            # frame.set_colorkey(BLACK)
             self.running_frames_left.append(pg.transform.flip(frame, True, False))
 
-        # self.idle_frames = [self.game.spritesheet.get_image(0, 0, 167, 191),
-        #                     self.game.spritesheet.get_image(1139, 0, 159, 191),
-        #                     self.game.spritesheet.get_image(495, 0, 162, 191),
-        #                     self.game.spritesheet.get_image(332, 0, 163, 191),
-        #                     self.game.spritesheet.get_image(1455, 0, 156, 191),
-        #                     self.game.spritesheet.get_image(1611, 0, 155, 191),
-        #                     self.game.spritesheet.get_image(657, 0, 162, 191),
-        #                     self.game.spritesheet.get_image(819, 0, 160, 191),
-        #                     self.game.spritesheet.get_image(1298, 0, 157, 191),
-        #                     self.game.spritesheet.get_image(979, 0, 160, 191),
-        #                     self.game.spritesheet.get_image(167, 0, 165, 191)]
-
-        for frame in self.idle_frames:
-            frame.set_colorkey(BLACK)
-            # frame.set_colorkey(WHITE)
-        for frame in self.running_frames:
-            frame.set_colorkey(BLACK)
-
-        self.jump_frames = [self.game.spritesheet_jump.get_image(0, 0, 238, 206),
-                            self.game.spritesheet_jump.get_image(238, 0, 238, 206)]
-
-        for frame in self.jump_frames:
-            frame.set_colorkey(BLACK)
-
+        self.jump_frames = []
+        for frame in SPRITESHEET_PLAYER_JUMP_FRAMES:
+            self.jump_frames.append(self.game.spritesheet_jump.extract_image(frame, BLACK, 2))
         # self.moving_frames_right = []
         # self.moving_frames_left = []
 
@@ -118,7 +72,7 @@ class Player(pg.sprite.Sprite):
             self.running = False
 
         if self.running and not self.jumping:
-            if current_time - self.last_updated > 100:
+            if current_time - self.last_updated > 60:
                 self.last_updated = current_time
                 self.current_frame = (self.current_frame + 1) % len(self.running_frames)
                 bottom_rect = self.rect.bottom
@@ -134,10 +88,10 @@ class Player(pg.sprite.Sprite):
                 self.last_updated = current_time
                 self.current_frame = (self.current_frame + 1) % len(self.idle_frames)
                 # retain bottom rect position for each previous frame to readjust players feet (keep them above ground)
-                # bottom_rect = self.rect.bottom
+                bottom_rect = self.rect.bottom
                 self.image = self.idle_frames[self.current_frame]
                 self.rect = self.image.get_rect()
-                # self.rect.bottom = bottom_rect
+                self.rect.bottom = bottom_rect
 
         if self.jumping or self.jump_boost:
             if current_time - self.last_updated > 100:
@@ -159,7 +113,7 @@ class Player(pg.sprite.Sprite):
             #         self.vel.y = JUMP_POWER
             #         self.jump_boost = False
 
-        # self.mask = pg.mask.from_surface(self.image)
+        self.mask = pg.mask.from_surface(self.image)
 
     def update(self):
         """""
@@ -169,7 +123,6 @@ class Player(pg.sprite.Sprite):
         self.animate()
         # reset players acceleration; apply small increase in y-value for gravity simulation
         self.acc = vec(0, PLAYER_Y_MOMENTUM)
-
         # an arry of boolean values for key states; T = key is pressed down
         keys_pressed = pg.key.get_pressed()
         # increase acceleration when moving right
@@ -183,7 +136,6 @@ class Player(pg.sprite.Sprite):
         # "forever sliding"; apply friction to X axis ONLY (don't want friction influencing falling/gravity effect)
         self.acc.x += self.vel.x * PLAYER_FRICTION
         # print(self.acc)
-
 
         # equations of motion
         self.vel += self.acc
@@ -229,6 +181,45 @@ class Player(pg.sprite.Sprite):
 
     def check_collisions(self):
         pass
+
+
+class Enemy(pg.sprite.Sprite):
+
+    def __init__(self, game):
+        self._layer = ENEMY_LAYER
+        self.groups = game.all_sprites, game.enemy
+        super().__init__(self.groups)
+        self.game = game
+        self.image_one = self.game.spritesheet_enemies.extract_image(ENEMY_T1_RED, WHITE, 1)
+        self.image_two = self.game.spritesheet_enemies.extract_image(ENEMY_T1_PINK, WHITE, 1)
+        self.image = self.image_one
+        self.rect = self.image.get_rect()
+        self.rect.centerx = random.choice([-100, SCREEN_WIDTH + 100])
+        self.vx = random.randrange(1, 4)
+        if self.rect.centerx > SCREEN_WIDTH:
+            self.vx *= -1
+        self.rect.y = random.randrange(SCREEN_HEIGHT / 2)
+        self.vy = 0
+        self.dy = 0.5
+
+    def update(self):
+
+        self.rect.x += self.vx
+        self.vy += self.dy
+        if self.vy > 3 or self.vy < -3:
+            self.dy *= -1
+        center = self.rect.center
+        if self.dy < 0:
+            self.image = self.image_one
+        else:
+            self.image = self.image_two
+
+        self.rect = self.image.get_rect()
+        self.mask = pg.mask.from_surface(self.image)
+        self.rect.center = center
+        self.rect.y += self.vy
+        if self.rect.left > SCREEN_WIDTH + 100 or self.rect.right < -100:
+            self.kill()
 
 
 class Obstacles(pg.sprite.Sprite):
@@ -306,3 +297,4 @@ class Buffs(pg.sprite.Sprite):
         self.rect.bottom = self.obstacle.rect.top  # - 3
         if not self.game.obstacles.has(self.obstacle):
             self.kill()
+#######################################################################################################################
